@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join Warhammer Hex Battle</title>
+<style>
+  html,body{margin:0;height:100%;background:#0d0f12;color:#e8e8ea;font-family:-apple-system,Segoe UI,Roboto,sans-serif}
+  .wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box}
+  h1{font-size:1.5em;margin:.2em 0 .1em;color:#e33}
+  .code{font-size:1.1em;letter-spacing:.15em;color:#ffcf40;margin:.4em 0 1.4em;font-weight:700}
+  a.btn{display:inline-block;padding:16px 34px;border-radius:10px;text-decoration:none;font-size:1.2em;font-weight:700}
+  a.join{background:#e33;color:#fff;margin-bottom:14px}
+  a.install{background:#22303c;color:#8fd0ff;font-size:1em;padding:12px 22px}
+  .hint{color:#8a8f98;font-size:.85em;margin-top:22px;max-width:22em;line-height:1.4}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Warhammer Hex Battle</h1>
+  <div id="codeline" class="code"></div>
+  <a id="joinbtn" class="btn join">Join Game</a>
+  <a class="btn install" href="https://github.com/snellystinky-byte/hexgame-releases/releases/latest/download/Hexagon_Game_1-arm64.apk">Don't have the game? Install it</a>
+  <div class="hint">Tap <b>Join Game</b> to open the app straight into this battle. If it's not installed yet, install it first, open it once, then tap the link again.</div>
+</div>
+<script>
+  var code = (new URLSearchParams(location.search).get('code') || '').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  document.getElementById('codeline').textContent = code ? ('Game code: ' + code) : 'No game code in this link';
+  var apk = 'https://github.com/snellystinky-byte/hexgame-releases/releases/latest/download/Hexagon_Game_1-arm64.apk';
+  // Android intent: URL â€” opens the app to hexgame://join?code=CODE, or the APK download if the app isn't installed.
+  var intent = 'intent://join?code=' + encodeURIComponent(code) +
+    '#Intent;scheme=hexgame;package=com.stinky.hexgame;' +
+    'S.browser_fallback_url=' + encodeURIComponent(apk) + ';end';
+  document.getElementById('joinbtn').setAttribute('href', code ? intent : apk);
+</script>
+</body>
+</html>
